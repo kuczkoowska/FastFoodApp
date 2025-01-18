@@ -19,7 +19,10 @@ const FoodCategories = (props) => {
           <li
             key={index}
             className="h-12 flex items-center justify-center"
-            onClick={() => props.onSelectCategory(category)}
+            onClick={() => {
+              console.log(`Clicked on category: ${category}`);
+              props.onSelectCategory(category);
+            }}
           >
             {category}
             <Divider />

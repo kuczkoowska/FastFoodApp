@@ -10,26 +10,27 @@ const MenuPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleCategorySelect = (category) => {
+    console.log("clicked");
     setSelectedCategory(category);
   };
 
   return (
     <>
-      <main>
-        <div className="grid grid-cols-6 grid-rows-2 gap-8">
-          <div className="col-start-1 mt-4">
+      <main className="h-screen overflow-hidden">
+        <div className="flex">
+          <div className="w-72 mt-4">
             <KFCLogo className="w-40 h-40" />
             <FoodCategories
               onSelectCategory={handleCategorySelect}
               food={food}
             />
           </div>
-          <div className="col-start-2">
+          <div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto">
             <FoodList selectedCategory={selectedCategory} food={food} />
           </div>
         </div>
       </main>
-      <footer className="bg-zinc-100 p-4">
+      <footer className="fixed bottom-0 w-full bg-white shadow-md p-4 flex justify-between items-center">
         <Cart />
       </footer>
     </>

@@ -6,7 +6,7 @@ import ForHereIcon from "../../public/dish-icon.svg";
 import TakeAwayIcon from "../../public/takeaway-icon.svg";
 
 const listItemClass =
-  "flex flex-col w-64 h-52 bg-zinc-100 rounded-2xl shadow-md justify-center items-center uppercase text-black font-bold hover:text-white hover:bg-red-600 hover:scale-105 hover:transition-transform hover:duration-300";
+  "flex flex-col md:w-64 w-60 md:h-52 h-48 bg-zinc-100 rounded-2xl shadow-md justify-center items-center uppercase text-black font-bold hover:text-white hover:bg-red-600 hover:scale-105 hover:transition-transform hover:duration-300";
 
 const orderTypes = [
   { href: "/menu", icon: DeliveryIcon, label: "Dostawa" },
@@ -17,7 +17,7 @@ const orderTypes = [
 const OrderType = () => {
   return (
     <>
-      <ul className="flex flex-row gap-8 mt-6">
+      <ul className="flex md:flex-row flex-column gap-8 mt-6">
         {orderTypes.map((orderType, index) => (
           <Link key={index} href={orderType.href}>
             <li className={listItemClass}>
