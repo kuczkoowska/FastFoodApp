@@ -19,6 +19,21 @@ const FoodList = (props) => {
     openModal();
   };
 
+  React.useEffect(() => {
+    if (props.selectedCategory) {
+      const index = props.food.findIndex(
+        (category) => category.category === props.selectedCategory
+      );
+      if (categoryRefs.current[index]) {
+        categoryRefs.current[index].scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    return () => {
+      props.setCategoryClicked(false);
+    };
+  }, [props.categoryClicked]);
+
   return (
     <>
       {props.food && (

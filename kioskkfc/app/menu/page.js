@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import FoodCategories from "../components/FoodCategories";
 import FoodList from "../components/FoodList";
@@ -8,10 +8,11 @@ import KFCLogo from "../../public/kfc-icon.svg";
 
 const MenuPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categoryClicked, setCategoryClicked] = useState(false);
 
   const handleCategorySelect = (category) => {
-    console.log("clicked");
     setSelectedCategory(category);
+    setCategoryClicked(true);
   };
 
   return (
@@ -26,7 +27,12 @@ const MenuPage = () => {
             />
           </div>
           <div className="flex-1 h-[calc(100vh-4rem)] overflow-y-auto">
-            <FoodList selectedCategory={selectedCategory} food={food} />
+            <FoodList
+              selectedCategory={selectedCategory}
+              food={food}
+              categoryClicked={categoryClicked}
+              setCategoryClicked={setCategoryClicked}
+            />
           </div>
         </div>
       </main>
