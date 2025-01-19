@@ -1,19 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../CartContext";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
-  const [items, setItems] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0.0);
+  const { cartItems, totalPrice } = useContext(CartContext);
+  const router = useRouter();
 
   return (
     <>
       <div className="flex flex-col">
-        <div>Items: {items}</div>
-        <div>Total Price: {totalPrice.toFixed(2)}</div>
+        <div className="text-lg font-bold">
+          Total Price: {totalPrice.toFixed(2)}
+        </div>
       </div>
       <button
-        className="bg-orange-500 text-white py-2 px-4 cursor-pointer rounded"
-        onClick={() => alert("Proceed to checkout")}
+        className="bg-orange-500 font-bold text-white py-3 px-5 cursor-pointer rounded"
+        onClick={() => router.push("/checkout")}
       >
         Checkout
       </button>
