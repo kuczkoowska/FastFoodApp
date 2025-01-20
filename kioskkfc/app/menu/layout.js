@@ -1,7 +1,13 @@
 import React from "react";
+import AutoLogout from "../components/AutoLogout";
 
 const MenuLayout = ({ children }) => {
-  return <>{children}</>;
+  return (
+    <>
+      <AutoLogout />
+      {children}
+    </>
+  );
 };
 
 export default MenuLayout;
