@@ -8,10 +8,22 @@ export const CartProvider = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   const addToCart = (item) => {
-    const updatedCart = [...cartItems, item];
+    const existingItemIndex = cartItems.findIndex(
+      (cartItem) => cartItem.item.id === item.item.id
+    );
+    let updatedCart;
+    if (existingItemIndex !== -1) {
+      updatedCart = cartItems.map((cartItem, index) =>
+        index === existingItemIndex
+          ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+          : cartItem
+      );
+    } else {
+      updatedCart = [...cartItems, item];
+    }
     setCartItems(updatedCart);
     const newTotal = updatedCart.reduce(
-      (acc, item) => acc + item.item.price * item.quantity,
+      (acc, item) => acc + item.item.price * item.quantity, // Revert to original access path
       0
     );
     setTotalPrice(newTotal);
@@ -23,7 +35,7 @@ export const CartProvider = ({ children }) => {
     );
     setCartItems(updatedCart);
     const newTotal = updatedCart.reduce(
-      (acc, item) => acc + item.item.price * item.quantity,
+      (acc, item) => acc + item.item.price * item.quantity, // Ensure consistent access path
       0
     );
     setTotalPrice(newTotal);

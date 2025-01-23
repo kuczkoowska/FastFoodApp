@@ -17,7 +17,7 @@ const FoodCategories = (props) => {
         {filteredCategories.map((category, index) => (
           <li
             key={index}
-            className="h-12 flex items-center justify-center border-b border-gray-200 cursor-pointer w-60"
+            className="h-12 flex items-center justify-center border-b border-gray-200 cursor-pointer w-60 hover:bg-zinc-200"
             onClick={() => {
               console.log(`Clicked on category: ${category}`);
               props.onSelectCategory(category);

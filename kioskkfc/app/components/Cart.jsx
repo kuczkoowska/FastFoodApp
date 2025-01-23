@@ -14,12 +14,21 @@ const Cart = () => {
           Total Price: {totalPrice.toFixed(2)}
         </div>
       </div>
-      <button
-        className="bg-orange-500 font-bold text-white py-3 px-5 cursor-pointer rounded"
-        onClick={() => router.push("/checkout")}
-      >
-        Checkout
-      </button>
+      {totalPrice > 0 ? (
+        <button
+          className="bg-orange-500 font-bold text-white py-3 px-5 cursor-pointer rounded"
+          onClick={() => router.push("/checkout")}
+        >
+          Checkout
+        </button>
+      ) : (
+        <button
+          className="bg-zinc-100 font-bold text-gray-400 py-3 px-5 cursor-pointer rounded"
+          disabled
+        >
+          Checkout
+        </button>
+      )}
     </>
   );
 };

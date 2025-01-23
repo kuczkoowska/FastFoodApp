@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Checkbox } from "@mui/material";
+import { pink, yellow, red } from "@mui/material/colors";
 import { CartContext } from "../CartContext";
 
 const button = "px-4 py-2 border rounded-full hover:bg-gray-200";
@@ -45,7 +46,7 @@ const ItemModal = (props) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-8 rounded shadow-lg relative w-full max-w-md">
+      <div className="bg-white p-8 rounded shadow-lg relative w-full max-w-md max-h-screen overflow-y-auto">
         <button
           className="absolute top-2 right-2 text-gray px-4 py-2"
           onClick={props.onClose}
@@ -60,18 +61,23 @@ const ItemModal = (props) => {
         {props.item.ingredients.length > 0 && (
           <div className="mt-4">
             <label className="block mb-2">Ingredients</label>
-            <div className="flex flex-col">
+            <div className="flex flex-col max-h-32 overflow-y-auto">
               {props.item.ingredients.map((ingredient, index) => (
                 <label
                   key={index}
-                  className="inline-flex items-center bg-red-100 p-2 mb-2"
+                  className="inline-flex items-center h-12 bg-red-100 p-2 mb-2"
                 >
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     name="ingredients"
                     value={ingredient}
                     onChange={handleOptionChange}
                     checked={selectedOptions.ingredients.includes(ingredient)}
+                    sx={{
+                      color: pink[800],
+                      "&.Mui-checked": {
+                        color: pink[600],
+                      },
+                    }}
                   />
                   <span className="ml-2">{ingredient}</span>
                 </label>
@@ -88,7 +94,9 @@ const ItemModal = (props) => {
             >
               -
             </button>
-            <p className="px-4">{quantity}</p>
+            <span className="inline-block text-center w-20 px-2">
+              {quantity}
+            </span>
             <button
               className={button}
               onClick={() => setQuantity((prev) => prev + 1)}
@@ -100,28 +108,35 @@ const ItemModal = (props) => {
         {(props.item.type === "wrap" || props.item.type === "burger") && (
           <div className="mt-4 mb-4">
             <label className="block mb-2">Extras</label>
-            <div>
+            <div className="flex flex-col">
               <label className="inline-flex items-center">
-                <input
+                <Checkbox
                   type="checkbox"
                   name="extras"
                   value="extra cheese"
                   onChange={handleOptionChange}
                   className="form-checkbox"
+                  sx={{
+                    "&.Mui-checked": {
+                      color: yellow[700],
+                    },
+                  }}
                 />
-                <span className="ml-2">Extra Cheese</span>
+                <p>Extra Cheese</p>
               </label>
-            </div>
-            <div>
               <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
+                <Checkbox
                   name="extras"
                   value="bacon"
                   onChange={handleOptionChange}
                   className="form-checkbox"
+                  sx={{
+                    "&.Mui-checked": {
+                      color: red[300],
+                    },
+                  }}
                 />
-                <span className="ml-2">Bacon</span>
+                <p>Bacon</p>
               </label>
             </div>
           </div>

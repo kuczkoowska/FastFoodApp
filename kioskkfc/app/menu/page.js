@@ -34,7 +34,10 @@ const MenuPage = () => {
         </div>
         <div className="flex">
           <div className="w-60 mt-4 flex flex-col items-center gap-4">
-            <KFCLogo className="w-40 h-40" onClick={() => router.push("/")} />
+            <KFCLogo
+              className="w-40 h-40 hover:cursor-pointer hover:scale-105 hover:transition-transform hover:duration-300"
+              onClick={() => router.push("/")}
+            />
             <FoodCategories
               onSelectCategory={handleCategorySelect}
               food={food}
