@@ -12,6 +12,10 @@ const PaymentProcessingPage = () => {
   const [orderNumber, setOrderNumber] = useState(null);
   const { clearCart } = useContext(CartContext);
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   useEffect(() => {
     if (method === "Cash") {
       setOrderNumber(Math.floor(1 + Math.random() * 99));
@@ -48,6 +52,12 @@ const PaymentProcessingPage = () => {
             <div className="bg-white p-32 rounded-full mt-8 border-8 border-green-200">
               <p className="text-7xl">{orderNumber}</p>
             </div>
+            <button
+              onClick={handlePrint}
+              className="mt-8 px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Print Confirmation
+            </button>
           </>
         )}
       </div>
