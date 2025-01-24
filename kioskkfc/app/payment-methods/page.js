@@ -8,7 +8,7 @@ import CashIcon from "../../public/saving-icon.svg";
 const PaymentMethodsPage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const [tableNumber, setTableNumber] = useState("");
+  const [tableNumber, setTableNumber] = useState(["", "", ""]);
 
   const handlePaymentSelection = (method) => {
     router.push(
@@ -16,19 +16,25 @@ const PaymentMethodsPage = () => {
     );
   };
 
-  const handleTableNumberChange = (index, value) => {
-    const newTableNumber =
-      tableNumber.substring(0, index) +
-      value.slice(-1) +
-      tableNumber.substring(index + 1);
-    setTableNumber(newTableNumber);
+  const handleTableNumberChange = (value, index, event) => {
+    const newTableNumber = [...tableNumber];
 
-    const tableNum = parseInt(newTableNumber, 10);
-    if (tableNum && (tableNum < 100 || tableNum > 149)) {
-      setError("Table number must be between 100 and 149.");
+    if (event.key === "Backspace" && !value) {
+      if (index > 0) {
+        document.getElementById(`square-${index - 1}`).focus();
+      }
+    } else if (/^\d$/.test(value)) {
+      newTableNumber[index] = value;
+
+      if (index < 2) {
+        document.getElementById(`square-${index + 1}`).focus();
+      }
     } else {
-      setError("");
+      return;
     }
+
+    newTableNumber[index] = value;
+    setTableNumber(newTableNumber);
   };
 
   const paymentMethods = [
@@ -48,11 +54,12 @@ const PaymentMethodsPage = () => {
           {[0, 1, 2].map((idx) => (
             <input
               key={idx}
+              id={`square-${idx}`}
               type="text"
               inputMode="numeric"
-              pattern="\d{1}"
-              value={tableNumber[idx] || ""}
-              onChange={(e) => handleTableNumberChange(idx, e.target.value)}
+              value={tableNumber[idx]}
+              onChange={(e) => handleTableNumberChange(e.target.value, idx, e)}
+              onKeyDown={(e) => handleTableNumberChange("", idx, e)}
               maxLength={1}
               className="w-20 h-28 px-3 text-2xl py-3 border-2 border-zinc-500 rounded-lg text-center outline-none"
             />
@@ -65,7 +72,15 @@ const PaymentMethodsPage = () => {
           <button
             key={method}
             onClick={() => handlePaymentSelection(method)}
-            className={`flex items-center justify-center bg-${color}-600 text-white px-6 py-4 text-lg sm:text-2xl rounded-lg shadow w-full h-full hover:bg-${color}-700`}
+            className={`flex items-center justify-center ${
+              color === "blue"
+                ? "bg-blue-500 hover:bg-blue-600"
+                : color === "green"
+                ? "bg-green-500 hover:bg-green-600"
+                : color === "yellow"
+                ? "bg-yellow-500 hover:bg-yellow-600"
+                : ""
+            } text-white px-6 py-4 text-lg sm:text-2xl rounded-lg shadow w-full h-full`}
           >
             <svg className="w-12 h-12 sm:w-20 sm:h-20 mr-2">{icon}</svg>
             {method}

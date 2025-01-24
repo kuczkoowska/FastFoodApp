@@ -53,7 +53,10 @@ const CheckoutPage = () => {
         </h1>
         <ul className="list-none p-4 mb-20">
           {groupedItems.map((order, index) => (
-            <li key={index} className="bg-gray-100 mb-2 p-2 rounded shadow-md">
+            <li
+              key={index}
+              className="bg-gray-100 p-4 mb-2 p-2 rounded shadow-md"
+            >
               <p className="text-lg font-bold">{order.item.name}</p>
               <p>{(order.item.price * order.quantity).toFixed(2)}</p>
               <div className="mt-4">
@@ -101,7 +104,7 @@ const CheckoutPage = () => {
                   </button>
                 </div>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="mt-2 text-sm text-gray-600">
                 Extras: {order.selectedOptions.extras.join(", ") || "None"}
               </p>
               <p className="text-sm text-gray-600">
@@ -112,7 +115,7 @@ const CheckoutPage = () => {
           ))}
         </ul>
       </div>
-      <footer className="fixed bottom-0 w-full bg-gray-50 shadow-md pb-4">
+      <footer className="pt-4 px-4 fixed bottom-0 w-full bg-gray-50 shadow-md pb-4">
         <div className="flex flex-col md:flex-row justify-between items-center text-white">
           <button
             onClick={() => window.history.back()}
@@ -128,7 +131,7 @@ const CheckoutPage = () => {
           </button>
         </div>
         {estimatedTime && (
-          <div className="mt-4 text-center text-gray-700">
+          <div className="text-center text-gray-700">
             Estimated Waiting Time: {estimatedTime}
           </div>
         )}
