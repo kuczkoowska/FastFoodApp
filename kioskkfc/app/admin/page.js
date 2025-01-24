@@ -10,7 +10,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    router.push("/sale");
+    router.push("admin/sale");
   };
 
   return (
