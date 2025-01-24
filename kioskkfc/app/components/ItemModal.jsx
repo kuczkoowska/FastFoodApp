@@ -10,28 +10,27 @@ const ItemModal = (props) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({
     extras: [],
-    ingredients: props.item.ingredients,
+    ingredients: props.item.ingredients || [],
   });
 
-  const handleOptionChange = (e) => {
-    const { name, value, checked } = e.target;
-    if (name === "extras") {
-      setSelectedOptions((prev) => ({
-        ...prev,
-        extras: checked
-          ? [...prev.extras, value]
-          : prev.extras.filter((extra) => extra !== value),
-      }));
-    } else if (name === "ingredients") {
-      setSelectedOptions((prev) => ({
-        ...prev,
-        ingredients: checked
-          ? [...(prev.ingredients || []), value]
-          : (prev.ingredients || []).filter(
-              (ingredient) => ingredient !== value
-            ),
-      }));
-    }
+  const handleIngredientsChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedOptions((prev) => ({
+      ...prev,
+      ingredients: checked
+        ? [...prev.ingredients, value]
+        : prev.ingredients.filter((ingredient) => ingredient !== value),
+    }));
+  };
+
+  const handleExtrasChange = (e) => {
+    const { value, checked } = e.target;
+    setSelectedOptions((prev) => ({
+      ...prev,
+      extras: checked
+        ? [...prev.extras, value]
+        : prev.extras.filter((extra) => extra !== value),
+    }));
   };
 
   const handleAddToCart = () => {
@@ -70,7 +69,7 @@ const ItemModal = (props) => {
                   <Checkbox
                     name="ingredients"
                     value={ingredient}
-                    onChange={handleOptionChange}
+                    onChange={handleIngredientsChange}
                     checked={selectedOptions.ingredients.includes(ingredient)}
                     sx={{
                       color: pink[800],
@@ -114,7 +113,7 @@ const ItemModal = (props) => {
                   type="checkbox"
                   name="extras"
                   value="extra cheese"
-                  onChange={handleOptionChange}
+                  onChange={handleExtrasChange}
                   className="form-checkbox"
                   sx={{
                     "&.Mui-checked": {
@@ -128,8 +127,7 @@ const ItemModal = (props) => {
                 <Checkbox
                   name="extras"
                   value="bacon"
-                  onChange={handleOptionChange}
-                  className="form-checkbox"
+                  onChange={handleExtrasChange}
                   sx={{
                     "&.Mui-checked": {
                       color: red[300],

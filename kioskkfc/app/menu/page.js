@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { food } from "../data/food";
 
@@ -9,6 +9,8 @@ import Cart from "../components/Cart";
 import KFCLogo from "../../public/kfc-icon.svg";
 import SearchBar from "../components/SearchBar";
 
+import { CartContext } from "../CartContext";
+
 import Toolbar from "@mui/material/Toolbar";
 
 const MenuPage = () => {
@@ -16,8 +18,7 @@ const MenuPage = () => {
   const [categoryClicked, setCategoryClicked] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-
+  const { clearCart } = useContext(CartContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,13 +28,6 @@ const MenuPage = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const storedCart = localStorage.getItem("cart");
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
-    }
   }, []);
 
   const handleCategorySelect = (category) => {
@@ -48,8 +42,7 @@ const MenuPage = () => {
   const handleReset = () => {
     setSelectedCategory(null);
     setCategoryClicked(false);
-    localStorage.removeItem("cart");
-    setCartItems([]);
+    clearCart();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -100,7 +93,7 @@ const MenuPage = () => {
             />
           </div>
           <div className="w-full bg-gray-50 shadow-md p-4 flex justify-between items-center">
-            <Cart cartItems={cartItems} />
+            <Cart />
           </div>
         </>
       ) : (
@@ -147,7 +140,7 @@ const MenuPage = () => {
                 </div>
               </div>
               <div className="w-full bg-gray-50 shadow-md p-4 flex justify-between items-center col-span-2">
-                <Cart cartItems={cartItems} />
+                <Cart />
               </div>
             </div>
           </main>
