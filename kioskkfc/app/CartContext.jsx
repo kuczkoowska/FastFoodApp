@@ -33,10 +33,6 @@ const CartProvider = ({ children }) => {
     setCartItems((prev) => [...prev, orderDetails]);
   };
 
-  const removeFromCart = (index) => {
-    setCartItems((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const updateQuantity = (index, newQuantity) => {
     setCartItems((prev) =>
       prev.map((item, i) =>
@@ -51,13 +47,17 @@ const CartProvider = ({ children }) => {
     localStorage.removeItem("cart");
   };
 
+  const removeItem = (index) => {
+    setCartItems((prevItems) => prevItems.filter((_, i) => i !== index));
+  };
+
   return (
     <CartContext.Provider
       value={{
         cartItems,
         totalPrice,
         addToCart,
-        removeFromCart,
+        removeItem,
         updateQuantity,
         clearCart,
       }}

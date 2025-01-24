@@ -34,10 +34,14 @@ const ItemModal = (props) => {
   };
 
   const handleAddToCart = () => {
+    const deletedIngredients = props.item.ingredients.filter(
+      (ingredient) => !selectedOptions.ingredients.includes(ingredient)
+    );
     const orderDetails = {
       item: props.item,
       quantity,
       selectedOptions,
+      deletedIngredients,
     };
     addToCart(orderDetails);
     props.onClose();

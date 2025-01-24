@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { CartContext } from "../CartContext";
 
 const CheckoutPage = () => {
-  const { cartItems, totalPrice, updateQuantity } = useContext(CartContext);
+  const { cartItems, totalPrice, updateQuantity, removeItem } =
+    useContext(CartContext);
 
   const router = useRouter();
 
@@ -24,48 +25,94 @@ const CheckoutPage = () => {
 
     const timer = setTimeout(() => {
       setEstimatedTime(calculateEstimatedTime());
-    }, 1000);
+    }, 900);
 
     return () => clearTimeout(timer);
   }, [cartItems]);
 
+  const groupedCartItems = cartItems.reduce((groups, item) => {
+    const key = JSON.stringify({
+      id: item.item.id,
+      selectedOptions: item.selectedOptions,
+    });
+    if (!groups[key]) {
+      groups[key] = { ...item, quantity: item.quantity };
+    } else {
+      groups[key].quantity += item.quantity;
+    }
+    return groups;
+  }, {});
+
+  const groupedItems = Object.values(groupedCartItems);
+
   return (
     <>
-      <div className="h-screen overflow-y-auto">
+      <div className="h-[90vh] overflow-y-auto">
         <h1 className="text-gray-800 text-4xl font-bold text-center mt-8 mb-8">
           Your Cart
         </h1>
         <ul className="list-none p-4 mb-20">
-          {cartItems.map((order, index) => (
+          {groupedItems.map((order, index) => (
             <li key={index} className="bg-gray-100 mb-2 p-2 rounded shadow-md">
               <p className="text-lg font-bold">{order.item.name}</p>
-              <p>{order.item.price * order.quantity}</p>
+              <p>{(order.item.price * order.quantity).toFixed(2)}</p>
               <div className="mt-4">
                 <label className="block mb-2">Quantity</label>
                 <div className="flex items-center">
                   <button
                     onClick={() =>
-                      updateQuantity(index, Math.max(1, order.quantity - 1))
+                      order.quantity === 1
+                        ? removeItem(
+                            cartItems.findIndex(
+                              (ci) =>
+                                ci.item.id === order.item.id &&
+                                JSON.stringify(ci.selectedOptions) ===
+                                  JSON.stringify(order.selectedOptions)
+                            )
+                          )
+                        : updateQuantity(
+                            cartItems.findIndex(
+                              (ci) =>
+                                ci.item.id === order.item.id &&
+                                JSON.stringify(ci.selectedOptions) ===
+                                  JSON.stringify(order.selectedOptions)
+                            ),
+                            order.quantity - 1
+                          )
                     }
                   >
                     -
                   </button>
                   <p className="px-4">{order.quantity}</p>
                   <button
-                    onClick={() => updateQuantity(index, order.quantity + 1)}
+                    onClick={() =>
+                      updateQuantity(
+                        cartItems.findIndex(
+                          (ci) =>
+                            ci.item.id === order.item.id &&
+                            JSON.stringify(ci.selectedOptions) ===
+                              JSON.stringify(order.selectedOptions)
+                        ),
+                        order.quantity + 1
+                      )
+                    }
                   >
                     +
                   </button>
                 </div>
               </div>
-              <span className="text-sm text-gray-600">
-                Options: {order.selectedOptions.extras.join(", ") || "None"}
-              </span>
+              <p className="text-sm text-gray-600">
+                Extras: {order.selectedOptions.extras.join(", ") || "None"}
+              </p>
+              <p className="text-sm text-gray-600">
+                Deleted Ingredients:{" "}
+                {order.deletedIngredients.join(", ") || "None"}
+              </p>
             </li>
           ))}
         </ul>
       </div>
-      <footer className="fixed bottom-0 w-full bg-gray-50 shadow-md p-4">
+      <footer className="fixed bottom-0 w-full bg-gray-50 shadow-md pb-4">
         <div className="flex flex-col md:flex-row justify-between items-center text-white">
           <button
             onClick={() => window.history.back()}
