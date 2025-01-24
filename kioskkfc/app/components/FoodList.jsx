@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import ItemModal from "./ItemModal";
 
 const listOfFood =
-  "flex flex-row flex-wrap w-52 h-48 m-4 bg-zinc-100 rounded-2xl justify-center items-center uppercase text-black font-bold hover:text-white hover:bg-zinc-200 hover:transition-transform hover:duration-300";
+  "flex flex-row flex-wrap w-32 h-32 sm:w-52 sm:h-48 m-4 bg-zinc-100 rounded-2xl justify-center items-center uppercase text-black font-bold hover:text-white hover:bg-zinc-200 hover:transition-transform hover:duration-300";
 
 const generalList = "flex flex-row flex-wrap w-full";
 

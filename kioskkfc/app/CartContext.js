@@ -23,7 +23,7 @@ export const CartProvider = ({ children }) => {
     }
     setCartItems(updatedCart);
     const newTotal = updatedCart.reduce(
-      (acc, item) => acc + item.item.price * item.quantity, // Revert to original access path
+      (acc, item) => acc + Number(item.item.price) * item.quantity,
       0
     );
     setTotalPrice(newTotal);
@@ -35,7 +35,7 @@ export const CartProvider = ({ children }) => {
     );
     setCartItems(updatedCart);
     const newTotal = updatedCart.reduce(
-      (acc, item) => acc + item.item.price * item.quantity, // Ensure consistent access path
+      (acc, item) => acc + Number(item.item.price) * item.quantity,
       0
     );
     setTotalPrice(newTotal);

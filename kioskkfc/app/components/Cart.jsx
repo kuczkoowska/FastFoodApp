@@ -22,10 +22,7 @@ const Cart = () => {
           Checkout
         </button>
       ) : (
-        <button
-          className="bg-zinc-100 font-bold text-gray-400 py-3 px-5 cursor-pointer rounded"
-          disabled
-        >
+        <button className="bg-zinc-100 font-bold text-gray-400 py-3 px-5 border-2 rounded cursor-not-allowed">
           Checkout
         </button>
       )}
