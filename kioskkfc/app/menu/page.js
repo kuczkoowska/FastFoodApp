@@ -73,7 +73,7 @@ const MenuPage = () => {
                   food={food}
                 />
               </div>
-              <SearchBar />
+              <SearchBar food={food} />
               <button
                 className="text-gray-500 ml-8"
                 onClick={() => {
@@ -88,6 +88,7 @@ const MenuPage = () => {
             <FoodList
               selectedCategory={selectedCategory}
               food={food}
+              main={true}
               categoryClicked={categoryClicked}
               setCategoryClicked={setCategoryClicked}
             />
@@ -108,7 +109,7 @@ const MenuPage = () => {
               </div>
               <div className="flex items-center justify-center">
                 <div className="p-4 flex justify-between items-center">
-                  <SearchBar />
+                  <SearchBar food={food} />
                   <div>
                     <button
                       className="text-gray-500 min-w-28 pl-4"
@@ -134,6 +135,7 @@ const MenuPage = () => {
                   <FoodList
                     selectedCategory={selectedCategory}
                     food={food}
+                    main={true}
                     categoryClicked={categoryClicked}
                     setCategoryClicked={setCategoryClicked}
                   />

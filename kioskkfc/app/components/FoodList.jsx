@@ -10,7 +10,7 @@ const generalList = "flex flex-row flex-wrap w-full";
 const FoodList = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const categoryRefs = useRef([]);
+  const categoryRefs = useRef({});
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -20,54 +20,78 @@ const FoodList = (props) => {
     openModal();
   };
 
+  const groupedFood = React.useMemo(() => {
+    const categories = {};
+    props.food.forEach((item) => {
+      if (!categories[item.category]) {
+        categories[item.category] = [];
+      }
+      categories[item.category].push(item);
+    });
+    return categories;
+  }, [props.food]);
+
   React.useEffect(() => {
     if (props.selectedCategory) {
-      const index = props.food.findIndex(
-        (category) => category.category === props.selectedCategory
-      );
-      if (categoryRefs.current[index]) {
-        categoryRefs.current[index].scrollIntoView({ behavior: "smooth" });
+      if (categoryRefs.current[props.selectedCategory]) {
+        categoryRefs.current[props.selectedCategory].scrollIntoView({
+          behavior: "smooth",
+        });
       }
     }
 
     return () => {
-      props.setCategoryClicked(false);
+      if (props.setCategoryClicked) {
+        props.setCategoryClicked(false);
+      }
     };
-  }, [props.categoryClicked]);
+  }, [props.categoryClicked, props.selectedCategory]);
 
   return (
     <>
-      {props.food && (
-        <>
-          {props.food.map((category, index) => (
-            <li key={index} ref={(el) => (categoryRefs.current[index] = el)}>
-              <h2
-                className={`text-xl font-bold mb-2 ${
-                  props.selectedCategory === category.category
-                }`}
-              >
-                {category.category}
-              </h2>
-              <ul className={generalList}>
-                {category.items.map((item, itemIndex) => (
-                  <li
-                    key={itemIndex}
-                    className={listOfFood}
-                    onClick={() => handleItemClick(item)}
-                  >
-                    <div className="flex flex-col items-center text-center">
-                      <p>{item.name}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+      {props.main && groupedFood ? (
+        Object.entries(groupedFood).map(([category, items], index) => (
+          <li
+            key={index}
+            ref={(el) => (categoryRefs.current[category] = el)}
+            className="mb-8"
+          >
+            <h2 className="text-xl font-bold mb-2">{category}</h2>
+            <ul className={generalList}>
+              {items.map((item, itemIndex) => (
+                <li
+                  key={itemIndex}
+                  className={listOfFood}
+                  onClick={() => handleItemClick(item)}
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <p>{item.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {item.price.toFixed(2)}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      ) : (
+        <ul className="flex flex-row flex-wrap">
+          {props.food.map((item, index) => (
+            <li
+              key={index}
+              className={listOfFood}
+              onClick={() => handleItemClick(item)}
+            >
+              <div className="flex flex-col items-center text-center">
+                <p>{item.name}</p>
+                <p className="text-sm text-gray-500">{item.price.toFixed(2)}</p>
+              </div>
             </li>
           ))}
-          {isModalOpen && (
-            <ItemModal item={selectedItem} onClose={closeModal} />
-          )}
-        </>
+        </ul>
       )}
+      {isModalOpen && <ItemModal item={selectedItem} onClose={closeModal} />}
     </>
   );
 };

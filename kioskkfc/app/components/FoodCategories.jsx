@@ -6,10 +6,12 @@ const FoodCategories = (props) => {
 
   useEffect(() => {
     if (props.food) {
-      const categories = props.food.map((item) => item.category);
+      const categories = Array.from(
+        new Set(props.food.map((item) => item.category))
+      );
       setFilteredCategories(categories);
     }
-  }, []);
+  }, [props.food]);
 
   return (
     <div className="border-r border-gray-200 w-full">
