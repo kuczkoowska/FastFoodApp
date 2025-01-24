@@ -1,10 +1,12 @@
 import LanguageSelector from "./components/LanguageSelector";
 import OrderType from "./components/OrderType";
+import Admin from "./components/Admin";
 import KFCIcon from "../public/kfc-icon.svg";
 
 function Home() {
   return (
     <>
+      <Admin />
       <main className="flex flex-col items-center justify-center gap-y-10 mt-10">
         <KFCIcon width="250" height="250" />
         <h1 className="text-5xl font-bold text-center mt-10">ORDER HERE!</h1>
