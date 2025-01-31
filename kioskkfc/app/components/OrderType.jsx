@@ -17,6 +17,7 @@ const orderTypes = [
 
 const OrderType = () => {
   const [isDeliveryClickable, setIsDeliveryClickable] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     setIsDeliveryClickable(Math.random() >= 0.5);
@@ -29,8 +30,8 @@ const OrderType = () => {
           orderType.label === "Delivery" && !isDeliveryClickable ? (
             <li
               key={index}
-              className={`${listItemClass} bg-gray-500 text-gray-400`}
-              onClick={() => alert("Delivery is not available right now")}
+              className={`${listItemClass} bg-gray-600 text-gray-400 hover:bg-gray-700 cursor-pointer`}
+              onClick={() => setShowAlert(true)}
             >
               <div className="hidden md:block">
                 <orderType.icon width="125" height="125" />
@@ -49,6 +50,25 @@ const OrderType = () => {
           )
         )}
       </ul>
+
+      {showAlert && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center w-80 animate-fadeIn">
+            <h2 className="text-lg font-semibold text-gray-800">
+              🚫 Delivery Unavailable
+            </h2>
+            <p className="text-gray-600 mt-2">
+              Sorry, delivery is not available right now.
+            </p>
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
+              onClick={() => setShowAlert(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
