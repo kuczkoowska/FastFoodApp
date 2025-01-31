@@ -3,6 +3,15 @@ import { Checkbox } from "@mui/material";
 import { pink, yellow, red } from "@mui/material/colors";
 import { CartContext } from "../CartContext";
 
+import Burger from "../../public/foodicons/burger-color-stroke-by-Vexels.svg";
+import Chicken from "../../public/foodicons/food-illustration-chicken-by-Vexels.svg";
+import Drink from "../../public/foodicons/soda-cute-by-Vexels.svg";
+import Wrap from "../../public/foodicons/shawarma-arabic-food-illustration-by-Vexels.svg";
+import Fries from "../../public/foodicons/food-french-fries-meal-by-Vexels.svg";
+import Bucket from "../../public/foodicons/happy-fried-chicken-bucket-kawaii-by-Vexels.svg"
+import Shake from "../../public/foodicons/milkshake-illustration-cup-by-Vexels.svg";
+import Coffee from "../../public/foodicons/coffee-drink-illustration-cup-by-Vexels.svg";
+
 const button = "px-4 py-2 border rounded-full hover:bg-gray-200";
 
 const ItemModal = (props) => {
@@ -12,6 +21,8 @@ const ItemModal = (props) => {
     extras: [],
     ingredients: props.item.ingredients || [],
   });
+  const [extraCheese, setExtraCheese] = useState(false);
+  const [extraBacon, setExtraBacon] = useState(false);
 
   const handleIngredientsChange = (e) => {
     const { value, checked } = e.target;
@@ -25,6 +36,11 @@ const ItemModal = (props) => {
 
   const handleExtrasChange = (e) => {
     const { value, checked } = e.target;
+    if (value === "extra cheese") {
+      setExtraCheese(checked);
+    } else if (value === "bacon") {
+      setExtraBacon(checked);
+    }
     setSelectedOptions((prev) => ({
       ...prev,
       extras: checked
@@ -34,11 +50,22 @@ const ItemModal = (props) => {
   };
 
   const handleAddToCart = () => {
+    let extraCost = 0;
+    if (extraCheese) extraCost += 2.00;
+    if (extraBacon) extraCost += 2.00;
+
+    const itemWithExtras = {
+      ...props.item,
+      extraCheese,
+      extraBacon,
+      price: props.item.price + extraCost,
+    };
+
     const deletedIngredients = props.item.ingredients.filter(
       (ingredient) => !selectedOptions.ingredients.includes(ingredient)
     );
     const orderDetails = {
-      item: props.item,
+      item: itemWithExtras,
       quantity,
       selectedOptions,
       deletedIngredients,
@@ -57,11 +84,35 @@ const ItemModal = (props) => {
           &times;
         </button>
         <div className="flex justify-between items-center font-bold mb-2 text-xl">
+          {props.item.type === "burger" && (
+            <Burger className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "wrap" && (
+            <Wrap className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "chicken" && (
+            <Chicken className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "drink" && (
+            <Drink className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "fries" && (
+            <Fries className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "bucket" && (
+            <Bucket className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "shake" && (
+            <Shake className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
+          {props.item.type === "coffee" && (
+            <Coffee className="w-12 h-12 sm:w-24 sm:h-24" />
+          )}
           <p>{props.item.name}</p>
           <p>{props.item.price}</p>
         </div>
         <p>{props.item.description}</p>
-        {props.item.ingredients.length > 0 && (
+        {(props.item.type === "burger" || props.item.type === "wrap") && props.item.ingredients.length > 0 && (
           <div className="mt-4">
             <label className="block mb-2">Ingredients</label>
             <div className="flex flex-col max-h-32 overflow-y-auto">
@@ -125,7 +176,7 @@ const ItemModal = (props) => {
                     },
                   }}
                 />
-                <p>Extra Cheese</p>
+                <p>Extra Cheese (+2.00)</p>
               </label>
               <label className="inline-flex items-center">
                 <Checkbox
@@ -138,7 +189,7 @@ const ItemModal = (props) => {
                     },
                   }}
                 />
-                <p>Bacon</p>
+                <p>Extra Bacon (+2.00)</p>
               </label>
             </div>
           </div>
@@ -148,10 +199,10 @@ const ItemModal = (props) => {
           props.item.ingredients.includes("cheese") ||
           props.item.ingredients.includes("milk") ||
           props.item.ingredients.includes("peanut butter")) && (
-          <p className="text-red-500 font-bold mb-2">
-            This item contains ingredients that some people may be allergic to.
-          </p>
-        )}
+            <p className="text-red-500 font-bold mb-2">
+              This item contains ingredients that some people may be allergic to.
+            </p>
+          )}
         <button
           className="absolute bottom-2 right-2 text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600"
           onClick={handleAddToCart}

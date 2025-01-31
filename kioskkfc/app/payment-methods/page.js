@@ -38,9 +38,9 @@ const PaymentMethodsPage = () => {
   };
 
   const paymentMethods = [
-    { method: "Credit Card", color: "blue", icon: <CardIcon /> },
-    { method: "BLIK", color: "green", icon: <BlikIcon /> },
-    { method: "Cash", color: "yellow", icon: <CashIcon /> },
+    { method: "Credit Card", icon: <CardIcon /> },
+    { method: "BLIK", icon: <BlikIcon /> },
+    { method: "Cash", icon: <CashIcon /> },
   ];
 
   return (
@@ -67,20 +67,12 @@ const PaymentMethodsPage = () => {
         </div>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
-      <div className="grid grid-rows-3 gap-8 flex-grow">
-        {paymentMethods.map(({ method, color, icon }) => (
+      <div className="grid grid-rows-3 gap-8 flex-grow w-[75vw] mx-auto">
+        {paymentMethods.map(({ method, icon }) => (
           <button
             key={method}
             onClick={() => handlePaymentSelection(method)}
-            className={`flex items-center justify-center ${
-              color === "blue"
-                ? "bg-blue-500 hover:bg-blue-600"
-                : color === "green"
-                ? "bg-green-500 hover:bg-green-600"
-                : color === "yellow"
-                ? "bg-yellow-500 hover:bg-yellow-600"
-                : ""
-            } text-white px-6 py-4 text-lg sm:text-2xl rounded-lg shadow w-full h-full`}
+            className="flex items-center justify-center px-6 py-4 text-lg sm:text-2xl rounded-full shadow h-full border-4 border-black-500 hover:bg-gray-200"
           >
             <svg className="w-12 h-12 sm:w-20 sm:h-20 mr-2">{icon}</svg>
             {method}

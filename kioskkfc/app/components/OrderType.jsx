@@ -30,7 +30,7 @@ const OrderType = () => {
           orderType.label === "Delivery" && !isDeliveryClickable ? (
             <li
               key={index}
-              className={`${listItemClass} bg-gray-600 text-gray-400 hover:bg-gray-700 cursor-pointer`}
+              className={`${listItemClass} bg-gray-700 text-gray-400 hover:bg-gray-800 hover:text-gray-300 hover:scale-100 cursor-pointer`}
               onClick={() => setShowAlert(true)}
             >
               <div className="hidden md:block">
@@ -39,13 +39,11 @@ const OrderType = () => {
               <p>{orderType.label}</p>
             </li>
           ) : (
-            <Link key={index} href={orderType.href}>
-              <li className={listItemClass}>
-                <div className="hidden md:block">
-                  <orderType.icon width="125" height="125" />
-                </div>
-                <p>{orderType.label}</p>
-              </li>
+            <Link key={index} href={orderType.href} className={listItemClass}>
+              <div className="hidden md:block">
+                <orderType.icon width="125" height="125" />
+              </div>
+              <p>{orderType.label}</p>
             </Link>
           )
         )}

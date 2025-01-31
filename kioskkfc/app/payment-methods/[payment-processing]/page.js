@@ -7,7 +7,6 @@ const PaymentProcessingPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const method = searchParams.get("method");
-  const table = searchParams.get("table");
   const [message, setMessage] = useState("Processing your payment...");
   const [orderNumber, setOrderNumber] = useState(null);
   const { clearCart } = useContext(CartContext);
@@ -17,24 +16,47 @@ const PaymentProcessingPage = () => {
   };
 
   useEffect(() => {
+    let timeout1, timeout2;
     if (method === "Cash") {
       setOrderNumber(Math.floor(1 + Math.random() * 99));
 
-      setTimeout(() => {
-        clearCart();
-        router.push("/");
-      }, 1000);
+      timeout1 = setTimeout(() => {
+      clearCart();
+      router.push("/");
+      }, 7000);
     } else {
-      setTimeout(() => {
+      const isError = Math.random() < 0.3;
+      if (isError) {
+      setMessage("Payment Failed! Please try again.");
+      timeout1 = setTimeout(() => {
+        setMessage("Processing your payment...");
+        timeout2 = setTimeout(() => {
         setOrderNumber(Math.floor(1 + Math.random() * 99));
-        setMessage(`Payment Successful!`);
+        setMessage("Payment Successful!");
 
-        setTimeout(() => {
+        timeout1 = setTimeout(() => {
           clearCart();
           router.push("/");
         }, 5000);
+        }, 5000);
       }, 5000);
+      } else {
+      timeout1 = setTimeout(() => {
+        setOrderNumber(Math.floor(1 + Math.random() * 99));
+        setMessage("Payment Successful!");
+
+        timeout2 = setTimeout(() => {
+        clearCart();
+        router.push("/");
+        }, 5000);
+      }, 5000);
+      }
     }
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    };
   }, [method, clearCart, router]);
 
   return (
