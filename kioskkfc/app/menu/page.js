@@ -6,7 +6,7 @@ import { food } from "../data/food";
 import FoodCategories from "../components/FoodCategories";
 import FoodList from "../components/FoodList";
 import Cart from "../components/Cart";
-import KFCLogo from "../../public/kfc-icon.svg";
+import KFCLogo from "../../public/kfc-ico.svg";
 import SearchBar from "../components/SearchBar";
 
 import { CartContext } from "../CartContext";

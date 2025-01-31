@@ -1,7 +1,7 @@
 import LanguageSelector from "./components/LanguageSelector";
 import OrderType from "./components/OrderType";
 import Admin from "./components/Admin";
-import KFCIcon from "../public/kfc-icon.svg";
+import KFCIcon from "../public/kfc-ico.svg";
 
 function Home() {
   return (

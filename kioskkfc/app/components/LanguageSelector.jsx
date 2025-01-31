@@ -1,6 +1,6 @@
 import React from "react";
-import En from "../../public/uk-flag-round-circle-ico.svg";
-import Pl from "../../public/poland-flag-round-circle-ico.svg";
+import En from "../../public/uk-flag-ico.svg";
+import Pl from "../../public/poland-flag-ico.svg";
 import Sp from "../../public/spain-country-flag-round-ico.svg";
 
 const languageItem =

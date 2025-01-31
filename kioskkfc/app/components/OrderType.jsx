@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
-import DeliveryIcon from "../../public/food-bike-delivery-icon.svg";
-import ForHereIcon from "../../public/dish-icon.svg";
-import TakeAwayIcon from "../../public/takeaway-icon.svg";
+import DeliveryIcon from "../../public/food-bike-delivery-ico.svg";
+import ForHereIcon from "../../public/dish-ico.svg";
+import TakeAwayIcon from "../../public/takeaway.ico.svg";
 
 const listItemClass =
   "flex flex-col w-36 h-28 bg-zinc-100 rounded-2xl shadow-md justify-center items-center uppercase text-black font-bold md:w-64 md:h-52 hover:text-white hover:bg-red-600 hover:scale-105 hover:transition-transform hover:duration-300";
