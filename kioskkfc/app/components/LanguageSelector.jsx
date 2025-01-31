@@ -1,7 +1,7 @@
 import React from "react";
-import En from "../../public/uk-flag-round-circle-icon.svg";
-import Pl from "../../public/poland-flag-round-circle-icon.svg";
-import Sp from "../../public/spain-country-flag-round-icon.svg";
+import En from "../../public/uk-flag-round-circle-ico.svg";
+import Pl from "../../public/poland-flag-round-circle-ico.svg";
+import Sp from "../../public/spain-country-flag-round-ico.svg";
 
 const languageItem =
   "w-24 h-24 rounded-full shadow-md hover:scale-110 hover:transition-transform hover:duration-300";
