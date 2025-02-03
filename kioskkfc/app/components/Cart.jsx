@@ -1,11 +1,14 @@
-"use client";
-import React, { useContext } from "react";
+import { useContext, useCallback } from "react";
 import { CartContext } from "../CartContext";
 import { useRouter } from "next/navigation";
 
 const Cart = () => {
   const { cartItems, totalPrice } = useContext(CartContext);
   const router = useRouter();
+
+  const handleCheckout = useCallback(() => {
+    router.push("/checkout");
+  }, [router]);
 
   return (
     <>
@@ -17,7 +20,7 @@ const Cart = () => {
       {totalPrice > 0 ? (
         <button
           className="bg-orange-500 font-bold text-white py-3 px-5 cursor-pointer rounded"
-          onClick={() => router.push("/checkout")}
+          onClick={handleCheckout}
         >
           Checkout
         </button>

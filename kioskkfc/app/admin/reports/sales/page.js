@@ -38,7 +38,19 @@ const dummySalesData = [
 ];
 
 export default function SalesPage() {
-  const [salesData, setSalesData] = useState(dummySalesData);
+  const tableRows = React.useMemo(() => {
+    return salesData.map((sale) => (
+      <tr key={sale.id} className="hover:bg-gray-50 text-gray-600">
+        <td className="py-2 px-4 border-b">{sale.product}</td>
+        <td className="py-2 px-4 border-b">{sale.category}</td>
+        <td className="text-right py-2 px-4 border-b">{sale.unitsSold}</td>
+        <td className="text-right py-2 px-4 border-b">
+          ${sale.totalRevenue.toFixed(2)}
+        </td>
+        <td className="py-2 px-4 border-b">{sale.date}</td>
+      </tr>
+    ));
+  }, [salesData]);
 
   return (
     <div className="p-6">
@@ -57,19 +69,7 @@ export default function SalesPage() {
             </tr>
           </thead>
           <tbody>
-            {salesData.map((sale) => (
-              <tr key={sale.id} className="hover:bg-gray-50 text-gray-600">
-                <td className="py-2 px-4 border-b">{sale.product}</td>
-                <td className="py-2 px-4 border-b">{sale.category}</td>
-                <td className="text-right py-2 px-4 border-b">
-                  {sale.unitsSold}
-                </td>
-                <td className="text-right py-2 px-4 border-b">
-                  ${sale.totalRevenue.toFixed(2)}
-                </td>
-                <td className="py-2 px-4 border-b">{sale.date}</td>
-              </tr>
-            ))}
+            {tableRows}
           </tbody>
         </table>
       </div>
